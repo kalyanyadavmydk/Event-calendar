@@ -1,0 +1,90 @@
+<html>
+
+  <head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+  </head>
+
+  <body>
+    
+<div id="header">
+  <div id="search">
+    <input type="text" id="eventtitle" value="" required>&nbsp;&nbsp;
+  <button (click)="searchEvent()" id="btn"><i class="fas fa-search"></i></button>
+  </div>
+  <div id="listallevents">
+    <button (click)="listevents()" class="button" style="background-color: #60435f;">ListAllEvents</button>
+  </div>
+
+  <div *ngIf="show">
+    <div>
+      <button (click)="closeevents()"class="button" style="background-color: red;">Close</button>
+    </div>
+
+    <div *ngFor="let event of calendarEvents" class="eventsdisplay">
+      <p style="color: silver;">{{event.start}}</p>
+      <input type="text" value="{{event.title}}" style="height: 40px; width: 300px;" id="titlename">
+      <textarea value="{{event.description}}" style="height: 40px; width: 700px;" id="desc"></textarea>
+      <button style="background-color: #0075A2;" class="button" (click)="editlistallevents(event)"> Update </button>
+      <button (click)="deleteevent(event)" class="button" style="background-color: red;">Delete</button>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<div class='app' id="app-calender">
+
+  <div class='app-calendar' *ngIf="calendarVisible">
+    <full-calendar
+      #calendar
+      defaultView="dayGridMonth"
+      [header]="{
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      }"
+      [plugins]="calendarPlugins"
+      [weekends]="calendarWeekends"
+      [events]="calendarEvents"
+      (dateClick)="handleDateClick($event)"
+    ></full-calendar>
+  </div>
+
+</div>
+
+<div id="event-container"> 
+  <form (submit)="formupdate(contact)" #contact="ngForm" id="post-container">
+    <input type="text" id="title"  name="title"  placeholder="Enter the Title....!" required ngModel><br>
+    <textarea type="text" id="txtarea" name="description" placeholder="description"  ngModel></textarea><br><br><br>
+    
+   <span style="margin-left: 500px; color: red; font-weight: bolder;">Remind Me : -</span>
+  <input type="radio" id="No" name="reminder" value="False" checked>
+  No
+  <input type="radio" id="Yes" name="reminder" value="True">
+  <label for="Yes">YES</label><br><br>
+  
+    <button type="submit" class="button" style="background-color: #86CD82;">Post</button>
+    <button type="button" (click)="hideevents()" class="button" style="background-color: #D55672;">Cancel</button>
+  </form>
+  <div *ngFor="let i of calendarEvents " >
+    <div *ngIf="i.Day==dateday ">
+      <div *ngIf="i.Year==dateyear "> 
+        <div *ngIf="i.month==datemonth " class="eventsdisplay">
+          <input id="editedvaluetxt" type="text" value="{{i.title}}" style="height: 40px; width: 300px;">
+          <textarea id="descr" value="{{i.description}}" style="height: 40px; width: 700px;"></textarea>
+          <button type="button"  (click)="editedvalue(i)"  style="background-color: #0075A2;" class="button">Update</button>
+          <button type="button"  (click)="deleteevent(i)" style="background-color: red;" class="button">Delete</button>
+        </div>
+      </div>
+      
+      
+    </div>
+
+</div>
+
+</div>
+  </body>
+</html>
+
